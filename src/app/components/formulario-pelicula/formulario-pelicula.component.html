@@ -1,0 +1,53 @@
+
+<form (submit)="guardarCambio()" [formGroup]="form">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Titulo *</mat-label>
+        <input formControlName="titulo" matInput/>
+        <mat-error> El campo titulo es requerido </mat-error>
+    </mat-form-field>
+
+    <div class="contenedor-checkbox">
+        <mat-checkbox formControlName="enCines"> En Cines </mat-checkbox>
+    </div>
+
+    <mat-form-field appearance="outline">
+        <mat-label> Trailer </mat-label>
+        <input formControlName="trailer" matInput/>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label> Fecha de Lanzamiento </mat-label>
+        <input formControlName="fechaLanzamiento" matInput [matDatepicker]="picker"/>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <h4> Seleccionar Poster </h4>
+
+    <app-input-imagenes [urlImagenActual]="modelo?.poster" (archivoSeleccionado)="achivoSeleccionado($event)"></app-input-imagenes>
+
+    <h4>Resumen</h4>
+    <app-input-markdown [contenidoMarkdown]="modelo?.resumen"
+                        (changeMarkdown)="changeMarkdown($event)" 
+                        [placeholderTextArea]="'Resumen'">
+    </app-input-markdown>
+
+    <h4> Seleccione los generos </h4>
+    <app-selector-multiple [Noseleccionados]="generosNoSeleccionados" 
+                           [Seleccionados]="generosSeleccionados">
+    </app-selector-multiple>
+
+    <h4> Seleccione los cines </h4>
+    <app-selector-multiple [Noseleccionados]="cinesNoSeleccionados" 
+                           [Seleccionados]="cinesSeleccionados">
+    </app-selector-multiple>
+
+    <h4> Seleccione Actores </h4>
+    <app-actores-autocomplete></app-actores-autocomplete>
+
+    <div>
+        <button mat-flat-button color="primary" [disabled]="form.invalid">Guardar Cambios</button>
+        <a mat-stroked-button routerLink="/"> Cancelar </a>
+    </div>
+</form>

@@ -1,0 +1,9 @@
+
+<h2> Editar Genero </h2>
+
+<app-formulario-generos *ngIf="modelo"
+                        [modelo]="modelo" 
+                        (onSubmit)="guardarCambios($event)">
+</app-formulario-generos>
+
+<mat-spinner *ngIf="!modelo"></mat-spinner>

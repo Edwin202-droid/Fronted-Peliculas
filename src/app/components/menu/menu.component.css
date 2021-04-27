@@ -1,0 +1,7 @@
+/* Para que el navbar se quede siempre arriba por mas que hagamos scrool */
+mat-toolbar{
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
+}
