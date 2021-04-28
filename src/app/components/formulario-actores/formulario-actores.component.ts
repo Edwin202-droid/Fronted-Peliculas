@@ -17,10 +17,12 @@ export class FormularioActoresComponent implements OnInit {
 
   @Output()submit: EventEmitter<actorCreacionDTO> = new EventEmitter<actorCreacionDTO>();
 
+  imagenCambiada= false;
+
   ngOnInit() {
     this.form = this.formBuilder.group({
       nombre: ['',Validators.required],
-      fechaNacimiento: ['',Validators.required],
+      fechaNacimiento: '',
       foto:'',
       biografia:'',
     });
@@ -30,10 +32,14 @@ export class FormularioActoresComponent implements OnInit {
   }
 
   Onsubmit(){
+    if(!this.imagenCambiada){
+      this.form.patchValue({'foto':null});
+    }
     this.submit.emit(this.form.value);
   }
 
   archivoSeleccionado(file){
+    this.imagenCambiada= true;
     this.form.get('foto').setValue(file);
   }
   cambioMardown(texto:string){

@@ -1,7 +1,7 @@
 
 import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTable, PageEvent } from '@angular/material';
 import { generoDTO } from 'src/app/interfaces/genero';
 import { GeneroService } from 'src/app/servicios/genero.service';
 

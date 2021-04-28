@@ -22,7 +22,7 @@ export class GeneroService {
 
   public obtenerPorId(id:number):Observable<generoDTO>{
     return this.http.get<generoDTO>(`${this.apiURL}/${id}`);
-  }
+  } 
 
   public crearGenero(genero: generoCreacionDTO){
     return this.http.post(this.apiURL, genero);

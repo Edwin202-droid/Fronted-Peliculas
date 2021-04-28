@@ -17,7 +17,7 @@
     <!-- componente: input-imagenes -->
     <app-input-imagenes [urlImagenActual]="modelo?.foto" (archivoSeleccionado)="archivoSeleccionado($event)"></app-input-imagenes>
     <!-- markdown -->
-    <app-input-markdown [placeholderTextArea]="'Biografia'" (changeMarkdown)="cambioMardown($event)"></app-input-markdown>
+    <app-input-markdown [contenidoMarkdown]="modelo?.biografia" [placeholderTextArea]="'Biografia'" (changeMarkdown)="cambioMardown($event)"></app-input-markdown>
 
 
     <div>
