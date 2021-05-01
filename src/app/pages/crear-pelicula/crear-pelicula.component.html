@@ -1,5 +1,10 @@
 <h2>Crear Pelicula</h2>
 
-<app-formulario-pelicula (OnSubmit)="guardarCambios($event)"></app-formulario-pelicula>
+<app-formulario-pelicula    *ngIf="cinesNoSeleccionados" 
+                            (OnSubmit)="guardarCambios($event)"
+                            [generosNoSeleccionados]="generosNoSeleccionados"
+                            [cinesNoSeleccionados]="cinesNoSeleccionados">
+</app-formulario-pelicula>
 
-<!-- <button mat-flat-button color="primary" type="button" (click)="guardarGenero()"> Guardar Cambios</button> -->
+<mat-spinner *ngIf="!cinesNoSeleccionados"></mat-spinner>
+

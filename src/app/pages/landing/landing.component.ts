@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PeliculaDTO } from 'src/app/interfaces/pelicula';
+import { PeliculasService } from 'src/app/servicios/peliculas.service';
 
 @Component({
   selector: 'app-landing',
@@ -6,25 +8,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing.component.css']
 })
 export class LandingComponent implements OnInit {
+  
+  constructor(private peliculaSerivce:PeliculasService){}
+
   ngOnInit(): void {
-    setTimeout(() => {
-      this.peliculasEnCines = [{
-        titulo: 'Spider-Man',
-        fechaLanzamiento: new Date(),
-        precio: 1400.99,
-        poster:'https://i.pinimg.com/originals/6c/77/5f/6c775f7a7b90a7f8620897c6bdd0e839.jpg'
-      },
-      {
-        titulo: 'Moana',
-        fechaLanzamiento: new Date('2016-11-14'),
-        precio: 300.99
-      }]
-    }, 500);
+    this.peliculaSerivce.obtenerPeliculas().subscribe(landingPage =>{
+      this.peliculasEnCines = landingPage.enCines;
+      this.peliculasProximosEstrenos= landingPage.proximosEstrenos;
+    });
   }
-  title = 'Al valor que yo quiera';
-  ocultar = false;
-  peliculasEnCines;
-  peliculasProximosEstrenos = [];
+  
+  peliculasEnCines: PeliculaDTO[];
+  peliculasProximosEstrenos:PeliculaDTO[];
+
+  borrado(){
+    this.peliculaSerivce.obtenerPeliculas().subscribe(landingPage =>{
+      this.peliculasEnCines = landingPage.enCines;
+      this.peliculasProximosEstrenos= landingPage.proximosEstrenos;
+    });
+  }
 
   manejarRated(voto: number): void{
     alert(voto);

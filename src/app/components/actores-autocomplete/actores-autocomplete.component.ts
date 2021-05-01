@@ -1,7 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatTable } from '@angular/material';
+import { actorPeliculaDTO } from 'src/app/interfaces/actor';
+import { ActoresService } from 'src/app/servicios/actores.service';
 
 @Component({
   selector: 'app-actores-autocomplete',
@@ -10,17 +12,12 @@ import { MatAutocompleteSelectedEvent, MatTable } from '@angular/material';
 })
 export class ActoresAutocompleteComponent implements OnInit {
 
-  constructor() { }
+  constructor(private actoresServices:ActoresService) { }
 
   control:FormControl = new FormControl();
-  actores = [ {nombre: 'Tom Holland', personaje: '' , foto:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/1200px-Tom_Holland_by_Gage_Skidmore.jpg'},
-              {nombre: 'Tom Hanks', personaje: '' , foto: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Tom_Hanks_TIFF_2019.jpg'},
-              {nombre: 'Samuel L. Jackson', personaje: '' , foto:'https://upload.wikimedia.org/wikipedia/commons/a/a9/Samuel_L._Jackson_2019_by_Glenn_Francis.jpg'},
-  ];
+  actoresAMostrar: actorPeliculaDTO[]=[];
 
-  actoresOriginal= this.actores;
-
-  actoresSeleccionados=[];
+  @Input()actoresSeleccionados: actorPeliculaDTO[]=[];
 
   columnasAMostrar= ['imagen', 'nombre', 'personaje', 'acciones'];
   
@@ -28,9 +25,10 @@ export class ActoresAutocompleteComponent implements OnInit {
   @ViewChild(MatTable, null) table: MatTable<any>;
 
   ngOnInit() {
-    this.control.valueChanges.subscribe(valor => {
-      this.actores = this.actoresOriginal;
-      this.actores = this.actores.filter(actor => actor.nombre.indexOf(valor) !== -1 );
+    this.control.valueChanges.subscribe(nombre => {
+      this.actoresServices.obtenerPorNombre(nombre).subscribe(actores =>{
+        this.actoresAMostrar = actores;
+      });
     });
   }
 

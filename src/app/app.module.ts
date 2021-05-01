@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import "leaflet/dist/images/marker-shadow.png";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from './material/material.module';
@@ -39,6 +40,7 @@ import { ActoresAutocompleteComponent } from './components/actores-autocomplete/
 import { HttpClientModule } from '@angular/common/http';
 
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { DetallePeliculaComponent } from './pages/detalle-pelicula/detalle-pelicula.component';
 
 
 @NgModule({
@@ -69,7 +71,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     MapaComponent,
     FormularioPeliculaComponent,
     SelectorMultipleComponent,
-    ActoresAutocompleteComponent
+    ActoresAutocompleteComponent,
+    DetallePeliculaComponent
   ],
   imports: [
     BrowserModule,

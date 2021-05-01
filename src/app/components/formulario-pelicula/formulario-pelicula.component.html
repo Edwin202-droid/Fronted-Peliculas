@@ -34,17 +34,17 @@
     </app-input-markdown>
 
     <h4> Seleccione los generos </h4>
-    <app-selector-multiple [Noseleccionados]="generosNoSeleccionados" 
-                           [Seleccionados]="generosSeleccionados">
+    <app-selector-multiple  [Seleccionados]="generosSeleccionados"
+                            [Noseleccionados]="generosNoSeleccionados">
     </app-selector-multiple>
 
     <h4> Seleccione los cines </h4>
-    <app-selector-multiple [Noseleccionados]="cinesNoSeleccionados" 
-                           [Seleccionados]="cinesSeleccionados">
+    <app-selector-multiple  [Seleccionados]="cinesSeleccionados"
+                            [Noseleccionados]="cinesNoSeleccionados" >
     </app-selector-multiple>
 
     <h4> Seleccione Actores </h4>
-    <app-actores-autocomplete></app-actores-autocomplete>
+    <app-actores-autocomplete [actoresSeleccionados]="actoresSeleccionados"></app-actores-autocomplete>
 
     <div>
         <button mat-flat-button color="primary" [disabled]="form.invalid">Guardar Cambios</button>

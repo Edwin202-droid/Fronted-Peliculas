@@ -1,3 +1,6 @@
+import { actorPeliculaDTO } from "./actor";
+import { cineDTO } from "./cine";
+import { generoDTO } from "./genero";
 
 export interface PeliculaCreacionDTO{
     titulo: string;
@@ -5,14 +8,40 @@ export interface PeliculaCreacionDTO{
     enCines:boolean;
     fechaLanzamiento: Date;
     trailer: string;
-    poster:File
+    poster:File;
+    generosIds:number[];
+    actores:actorPeliculaDTO;
+    cinesIds: number[];
 }
 
 export interface PeliculaDTO{
+    id:number;
     titulo: string;
     resumen:string;
     enCines:boolean;
     fechaLanzamiento: Date;
     trailer: string;
-    poster:string
+    poster:string;
+    generos: generoDTO[];
+    actores: actorPeliculaDTO[];
+    cine: cineDTO[];
+}
+
+export interface PeliculaPostGet{
+    generos: generoDTO[];
+    cines: cineDTO[];
+}
+
+export interface LandingPageDTO{
+    enCines: PeliculaDTO[];
+    proximosEstrenos: PeliculaDTO[];
+}
+
+export interface PeliculaPutGet{
+    pelicula: PeliculaDTO;
+    generosSeleccionados: generoDTO[];
+    generosNoSeleccionados: generoDTO[];
+    cinesSeleccionados: cineDTO[];
+    cinesNoSeleccionados: cineDTO[];
+    actores: actorPeliculaDTO[]; 
 }

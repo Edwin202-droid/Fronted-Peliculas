@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { latLng, LeafletMouseEvent, marker, Marker, tileLayer } from 'leaflet';
-import { coordenada } from 'src/app/interfaces/coordenadas';
+import { coordenada, coordenadaConMensaje } from 'src/app/interfaces/coordenadas';
 
 
 @Component({
@@ -12,12 +12,23 @@ export class MapaComponent implements OnInit {
 
   constructor() { }
 
-  @Input()coordendasIniciales: coordenada[]=[];
+  //Para mostrar el nombre del local - no afecta la coordenada
+  @Input() coordendasIniciales: coordenadaConMensaje[] = [];
 
-  @Output()coordenadaSeleccionada: EventEmitter<coordenada> = new EventEmitter<coordenada>();
+  //Para que el usuario no puede mover el marcador del mapa
+  @Input() soloLectura: boolean = false;
+
+  @Output() coordenadaSeleccionada: EventEmitter<coordenada> = new EventEmitter<coordenada>();
 
   ngOnInit() {
-    this.capas= this.coordendasIniciales.map(valor => marker([valor.latitud, valor.longitud]))
+    this.capas = this.coordendasIniciales.map(valor => {
+      //Para mostrar el nombre
+      let marcador=  marker([valor.latitud, valor.longitud]);
+      if(valor.mensaje){
+        marcador.bindPopup(valor.mensaje, {autoClose:false, autoPan:false});
+      }
+      return marcador;
+    });
   }
 
   options = {
@@ -29,15 +40,21 @@ export class MapaComponent implements OnInit {
   };
 
   /* Marcadores */
-  capas: Marker<any>[]= [];
+  capas: Marker<any>[] = [];
 
-  manejarClick(event: LeafletMouseEvent){
+  manejarClick(event: LeafletMouseEvent) {
     const latitud = event.latlng.lat;
     const longitud = event.latlng.lng;
-    console.log({latitud,longitud});
-    
-    this.capas = [];
-    this.capas.push(marker([latitud,longitud]));
-    this.coordenadaSeleccionada.emit({latitud: latitud , longitud:longitud});
+    console.log({ latitud, longitud });
+
+    if (!this.soloLectura) {
+      const latitud = event.latlng.lat;
+      const longitud = event.latlng.lng;
+      console.log({ latitud, longitud });
+
+      this.capas = [];
+      this.capas.push(marker([latitud, longitud]));
+      this.coordenadaSeleccionada.emit({ latitud: latitud, longitud: longitud });
+    }
   }
 }

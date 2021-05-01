@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 /* Navbar */
 import {  MatAutocomplete, MatAutocompleteModule, MatButtonModule, 
           MatCheckboxModule, 
+          MatChipsModule, 
           MatDatepickerModule, 
           MatFormFieldModule, 
           MatIconModule, 
@@ -41,7 +42,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     /* Paginacion */
     MatPaginatorModule,
     /* Progress */
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatChipsModule
   ],
   imports: [
     CommonModule

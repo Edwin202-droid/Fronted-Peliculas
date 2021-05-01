@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { actorPeliculaDTO } from 'src/app/interfaces/actor';
 import { PeliculaCreacionDTO, PeliculaDTO } from 'src/app/interfaces/pelicula';
 import { MultipleSeleccion } from 'src/app/interfaces/seleccion';
 
@@ -18,20 +19,18 @@ export class FormularioPeliculaComponent implements OnInit {
 
   @Output()OnSubmit: EventEmitter<PeliculaCreacionDTO> = new EventEmitter<PeliculaCreacionDTO>();
 
-  generosNoSeleccionados: MultipleSeleccion[] = [
-    {llave: 1, valor: 'Drama'},
-    {llave: 2, valor: 'Comedia'},
-    {llave: 3, valor: 'Accion'},
-  ];
+  @Input()generosNoSeleccionados: MultipleSeleccion[];
 
-  generosSeleccionados: MultipleSeleccion[]=[];
+  @Input()generosSeleccionados: MultipleSeleccion[]=[];
 
-  cinesNoSeleccionados: MultipleSeleccion[]=[
-    {llave: 1, valor: 'CineStar'},
-    {llave: 2, valor: 'CinePlanet'},
-  ];
+  @Input()cinesNoSeleccionados: MultipleSeleccion[];
   
-  cinesSeleccionados: MultipleSeleccion[]=[];
+  @Input()cinesSeleccionados: MultipleSeleccion[]=[];
+
+  @Input()actoresSeleccionados: actorPeliculaDTO[]=[];
+
+  //NoPostear de nuevo la imagen, si el usuario no actualiza la foto
+  imagenCambiada= false;
 
   ngOnInit() {
     this.form = this.formBuilder.group({
@@ -41,8 +40,9 @@ export class FormularioPeliculaComponent implements OnInit {
       trailer: '',
       fechaLanzamiento:'',
       poster:'',
-      generosId:'',
-      cinesId:'',
+      generosIds:'',
+      cinesIds:'',
+      actores:'',
     });
 
     if(this.modelo !== undefined){
@@ -53,16 +53,28 @@ export class FormularioPeliculaComponent implements OnInit {
   guardarCambio(){
 
     const generosIds = this.generosSeleccionados.map(val => val.llave);
-    this.form.get('generosId').setValue(generosIds);
+    this.form.get('generosIds').setValue(generosIds);
 
     const cinesIds = this.cinesSeleccionados.map(val => val.llave);
-    this.form.get('cinesId').setValue(cinesIds);
+    this.form.get('cinesIds').setValue(cinesIds);
+
+    //mandar los actores que hemos seleccionado
+    const actores = this.actoresSeleccionados.map(val =>{
+      return {id: val.id, personaje:val.personaje}
+    });
+    this.form.get('actores').setValue(actores);
+
+    //No mandar de nuevo la imagen , si no lo actualiza
+    if(!this.imagenCambiada){
+      this.form.patchValue({'poster':null})
+    }
     
     this.OnSubmit.emit(this.form.value);
   }
 
   achivoSeleccionado(archivo:File){
     this.form.get('poster').setValue(archivo);
+    this.imagenCambiada = true;
   }
 
   changeMarkdown(texto){

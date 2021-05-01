@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { actorCreacionDTO, actorDTO } from '../interfaces/actor';
+import { actorCreacionDTO, actorDTO, actorPeliculaDTO } from '../interfaces/actor';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,12 @@ export class ActoresService {
     return this.http.put(`${this.apiURL}/${id}`, actor);
   }
 
+  public obtenerPorNombre(nombre:string):Observable<actorPeliculaDTO[]>{
+    //paso el string a json para buscarlo en el backend
+    const headers = new HttpHeaders('Content-Type: application/json');
+    return this.http.post<actorPeliculaDTO[]>(`${this.apiURL}/buscarPorNombre`, JSON.stringify(nombre), {headers});
+  }
+
   //Para poder recibir la imagen
   private construirFormData(actor:actorCreacionDTO):FormData{
     const formData = new FormData();
@@ -64,7 +70,7 @@ export class ActoresService {
 
 }
 
-function formatearfecha(date:Date) {
+export function formatearfecha(date:Date) {
 
   date = new Date(date);
   const formatto = new Intl.DateTimeFormat('en',{
